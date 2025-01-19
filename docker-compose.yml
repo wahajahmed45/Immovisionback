@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: immovision-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: immovision
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - immovision-network
+
+  backend:
+    image: wahajahmed45/immovision-backend
+    container_name: immovision-backend
+    ports:
+      - "6000:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/immovision
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "1234"
+    depends_on:
+      - mysql
+    networks:
+      - immovision-network
+
+volumes:
+  mysql_data:
+
+networks:
+  immovision-network:
+    driver: bridge
