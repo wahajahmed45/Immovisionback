@@ -21,6 +21,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect # Choose the correct dialect
         jdbc.lob.non_contextual_creation: true      # Optimize LOB handling
-  logging:
-    level:
-      org.hibernate.SQL: DEBUG    # For debugging SQL if needed
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: always
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework: DEBUG
+    com.example.immovision: DEBUG
+    org.hibernate: DEBUG
+
+
