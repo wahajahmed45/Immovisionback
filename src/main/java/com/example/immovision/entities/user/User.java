@@ -35,13 +35,11 @@ public class User {
     @Column(name = "google_id")
     private String googleId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_role", referencedColumnName = "id_role")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Role roles;
 
     @OneToMany(mappedBy = "owner")
     @JsonManagedReference  // Change this from JsonBackReference
