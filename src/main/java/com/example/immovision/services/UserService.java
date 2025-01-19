@@ -78,6 +78,8 @@ public class UserService {
         newUser.setName(name);
         newUser.setGoogleId(googleId);
         newUser.setRoles(role);
+        var pass = passwordEncoder.encode("1234");
+        newUser.setPassword(pass);
 
 
         return userRepository.save(newUser);
