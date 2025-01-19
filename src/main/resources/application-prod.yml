@@ -17,6 +17,7 @@ spring:
       ddl-auto: none               # Adjust based on your needs (e.g., 'update', 'create', 'none')
       show-sql: false              # Set to true for debugging SQL queries
       format-sql: false            # Pretty print SQL if true
+      enable_lazy_load_no_trans: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect # Choose the correct dialect

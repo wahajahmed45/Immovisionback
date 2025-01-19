@@ -1,5 +1,6 @@
 package com.example.immovision.entities.amenity;
 import com.example.immovision.entities.property.Property;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +33,7 @@ public class Amenity {
     @Column(name = "name")
     private List<String> other = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "property_id")
+    @OneToOne(mappedBy = "amenities")
+    @JsonBackReference
     private Property property;
 }
