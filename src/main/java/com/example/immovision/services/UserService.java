@@ -8,13 +8,15 @@ import com.example.immovision.entities.user.User;
 import com.example.immovision.repositories.user.RoleRepository;
 import com.example.immovision.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import java.util.*;
 
 @Service
 public class UserService {
@@ -22,8 +24,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-
     private RoleRepository roleRepository;
+   // @Autowired
+   // private JavaMailSender emailSender;
+
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder) {
@@ -129,5 +133,48 @@ public class UserService {
         User updatedUser = userRepository.save(user);
         return new UserInfoDTO(updatedUser.getName(), updatedUser.getEmail(), updatedUser.getRoles().getName());
     }
+
+//    public void forgotPassword(String email) {
+//        try {
+//            User user = findByEmail(email)
+//                    .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//            String temporaryPassword = generateRandomPassword();
+//            user.setPassword(passwordEncoder.encode(temporaryPassword));
+//            userRepository.save(user);
+//
+//            SimpleMailMessage message = new SimpleMailMessage();
+//            message.setTo(user.getEmail());
+//            message.setSubject("Password Reset - ImmoVision");
+//            message.setText("Hello " + user.getName() + ",\n\n" +
+//                    "Here is your temporary password: " + temporaryPassword + "\n\n" +
+//                    "For security reasons, we recommend changing this password upon your next login.\n\n" +
+//                    "Best regards,\n" +
+//                    "ImmoVision Team");
+//
+//            try {
+//                emailSender.send(message);
+//            } catch (MailAuthenticationException e) {
+//                throw new RuntimeException("Email service authentication failed. Please contact support.");
+//            } catch (MailException e) {
+//                throw new RuntimeException("Failed to send email. Please try again later.");
+//            }
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException("Password reset failed: " + e.getMessage());
+//        }
+//    }
+
+    private String generateRandomPassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 12; i++) {
+            password.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return password.toString();
+    }
+
 
 }

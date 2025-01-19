@@ -72,5 +72,18 @@ public class UserController {
         }
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+        try {
+            userService.forgotPassword(email);
+            return ResponseEntity.ok(Map.of("message", "An email with your new password has been sent"));
+        } catch (RuntimeException e) {
+            // Pour des raisons de sécurité, on renvoie toujours un succès
+            // même si l'email n'existe pas
+            return ResponseEntity.ok(Map.of("message", "An email with your new password has been sent"));
+        }
+    }
+
+
 
 }
