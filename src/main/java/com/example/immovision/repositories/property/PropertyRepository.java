@@ -36,12 +36,12 @@ public interface PropertyRepository extends JpaRepository<Property, UUID>, JpaSp
 
     List<Property> findByAgent_Email(String email);
 
-    @Query("SELECT p FROM Property p WHERE " +
-            "(:priceMin IS NULL OR p.price >= :priceMin) " +
-            "AND (:priceMax IS NULL OR p.price <= :priceMax) " +
-            "AND (:rooms IS NULL OR p.bedroom = :rooms) " +
-            "AND (:bathrooms IS NULL OR p.bathroom = :bathrooms) " +
-            "AND (:city IS NULL OR p.city = :city)")
+    @Query("SELECT DISTINCT p FROM Property p LEFT JOIN p.amenities a WHERE " +
+            "(:priceMin IS NULL OR p.price >= :priceMin) AND " +
+            "(:priceMax IS NULL OR p.price <= :priceMax) AND " +
+            "(:rooms IS NULL OR p.bedroom = :rooms) AND " +
+            "(:bathrooms IS NULL OR p.bathroom = :bathrooms) AND " +
+            "(:city IS NULL OR p.city = :city)")
     List<Property> findFilteredProperties(
             @Param("priceMin") Integer priceMin,
             @Param("priceMax") Integer priceMax,

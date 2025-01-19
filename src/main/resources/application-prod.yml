@@ -5,34 +5,30 @@ spring:
     password: ${PROD_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      maximum-pool-size: 10        # Maximum number of connections in the pool
-      minimum-idle: 5             # Minimum number of idle connections in the pool
-      idle-timeout: 30000         # Maximum idle time for a connection in milliseconds
-      max-lifetime: 1800000       # Maximum lifetime of a connection in milliseconds
-      connection-timeout: 30000   # Maximum time to wait for a connection in milliseconds
-      pool-name: HikariPool       # Name of the connection pool (optional)
-      leak-detection-threshold: 20000 # Log a warning if a connection is used for more than 20 seconds
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
   jpa:
     hibernate:
-      ddl-auto: none               # Adjust based on your needs (e.g., 'update', 'create', 'none')
-      show-sql: false              # Set to true for debugging SQL queries
-      format-sql: false            # Pretty print SQL if true
-      enable_lazy_load_no_trans: true
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect # Choose the correct dialect
-        jdbc.lob.non_contextual_creation: true      # Optimize LOB handling
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
+
 server:
   error:
     include-message: always
     include-binding-errors: always
-    include-stacktrace: always
+    include-stacktrace: on_param
 
 logging:
   level:
-    root: DEBUG
-    org.springframework: DEBUG
-    com.example.immovision: DEBUG
-    org.hibernate: DEBUG
-
-
+    root: INFO
+    org.springframework: INFO
+    com.example.immovision: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

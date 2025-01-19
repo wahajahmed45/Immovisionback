@@ -40,6 +40,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'com.cloudinary:cloudinary-http44:1.36.0'
 	implementation 'mysql:mysql-connector-java:8.0.33'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.projectlombok:lombok:1.18.28'
 	annotationProcessor 'org.projectlombok:lombok:1.18.28'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

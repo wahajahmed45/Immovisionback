@@ -4,7 +4,6 @@ import com.example.immovision.entities.amenity.Amenity;
 import com.example.immovision.entities.appointment.Appointment;
 import com.example.immovision.entities.images.PropertyImages;
 import com.example.immovision.entities.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -172,22 +171,21 @@ public class Property {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @JsonBackReference  // Change this from JsonManagedReference
+    @JsonManagedReference
     private User owner;
 
     @ManyToOne
     @JoinColumn(name = "agent_id")
-    @JsonBackReference
+    @JsonManagedReference
     private User agent;
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments;
 
-
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PropertyImages> images;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Amenity amenities;  // Remove mappedBy
+    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Amenity amenities;
     @Nullable
     @PrePersist
     protected void onCreate() {

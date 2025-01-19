@@ -1,6 +1,5 @@
 package com.example.immovision.entities.user;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +18,6 @@ public class Role {
 
     @Column(unique = true, nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "role")
-    @JsonBackReference
-    private List<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
