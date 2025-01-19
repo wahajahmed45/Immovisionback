@@ -1,7 +1,26 @@
 spring:
   datasource:
-    url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
+    url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
-    name: ${PROD_DB_NAME}
-    
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10        # Maximum number of connections in the pool
+      minimum-idle: 5             # Minimum number of idle connections in the pool
+      idle-timeout: 30000         # Maximum idle time for a connection in milliseconds
+      max-lifetime: 1800000       # Maximum lifetime of a connection in milliseconds
+      connection-timeout: 30000   # Maximum time to wait for a connection in milliseconds
+      pool-name: HikariPool       # Name of the connection pool (optional)
+      leak-detection-threshold: 20000 # Log a warning if a connection is used for more than 20 seconds
+  jpa:
+    hibernate:
+      ddl-auto: none               # Adjust based on your needs (e.g., 'update', 'create', 'none')
+      show-sql: false              # Set to true for debugging SQL queries
+      format-sql: false            # Pretty print SQL if true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect # Choose the correct dialect
+        jdbc.lob.non_contextual_creation: true      # Optimize LOB handling
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG    # For debugging SQL if needed
